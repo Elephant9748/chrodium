@@ -32,3 +32,13 @@ jobs:
         run: |
           keytool -v -list -keystore vanadium.keystore -storepass "${{secrets.CHRODIUM_KEY}}"
           ls -la
+          ./generate-release
+
+      - name: install depot_tools
+        run: |
+          git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+          export PATH="$PATH:$PWD/depot_tools"
+
+      - name: Fetching chromium source
+        run: |
+          fetch --nohooks android
