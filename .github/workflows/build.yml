@@ -40,4 +40,4 @@ jobs:
       - name: Fetching chromium source
         run: |
           ls -la
-          ./depot_tool/fetch --nohooks android
+          ./depot_tools/fetch --nohooks android
