@@ -36,8 +36,6 @@ jobs:
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
           export PATH="$PATH:$PWD/depot_tools"
-
-      - name: Fetching chromium source
-        run: |
           ls -la
-          ./depot_tools/fetch --nohooks android
+          fetch --nohooks android
+
