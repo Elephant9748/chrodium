@@ -32,7 +32,6 @@ jobs:
         run: |
           keytool -v -list -keystore vanadium.keystore -storepass "${{secrets.CHRODIUM_KEY}}"
           ls -la
-          ./generate-release
 
       - name: install depot_tools
         run: |
