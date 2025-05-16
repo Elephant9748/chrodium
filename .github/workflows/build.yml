@@ -36,6 +36,23 @@ jobs:
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
           export PATH="$PATH:$PWD/depot_tools"
-          ls -la
           fetch --nohooks android
+      - name: install depot_tools & fetch chromium
+        run: |
+          git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+          export PATH="$PATH:$PWD/depot_tools"
+          fetch --nohooks --no-history android 
+      - name: applying vanadium patch
+        run: |
+          cd src
+          git fetch --tags
+          git tag -l
+          echo "CHECK TAG"
+          echo "-------------------"
+          git describe --tags $(git rev-list --tags --max-count=1)
+          echo "-------------------"
+          git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
+          git am --whitespace=nowarn --keep-non-patch ../patches/*.patch
+          gclient sync -D --with_branch_heads --with_tags --jobs 32
+          gn args out/Default
 
