@@ -4,7 +4,7 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   # This workflow contains a single job called "build"
@@ -24,8 +24,11 @@ jobs:
           distribution: "temurin"
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Generate keystore
         run: |
-          command -v keytool
+          keytool -genkey -v -storepass "${{secrets.CHRODIUM_KEY}}" -keystore vanadium.keystore -storetype pkcs12 -alias vanadium -keyalg RSA -keysize 4096 -sigalg SHA512withRSA -validity 10000 -dname "cn=GrapheneOS"
 
-
+      - name: Verify keystore
+        run: |
+          keytool -v -list -keystore vanadium.keystore -storepass "${{secrets.CHRODIUM_KEY}}"
+          ls -la
