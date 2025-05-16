@@ -31,10 +31,10 @@ jobs:
       - name: Verify keystore
         run: |
           keytool -v -list -keystore vanadium.keystore -storepass "${{secrets.CHRODIUM_KEY}}"
-          ls -la
 
       - name: install depot_tools
         run: |
+          ls -la
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
           export PATH="$PATH:$PWD/depot_tools"
 
