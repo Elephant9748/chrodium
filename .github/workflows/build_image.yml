@@ -27,12 +27,12 @@ on:
         required: true
         default: 'all'
       type:
-        description: 'runner? [dev/cli/ubuntu-latest]'
-        required: false
+        description: 'runner? [dev/ci/ubuntu-latest]'
+        required: true
         default: 'ci'
       debug:
         description: 'debug? [true/false]'
-        required: false
+        required: true
         default: 'false'
       clangd:
         description: 'clangd? [true/false]'
