@@ -123,7 +123,7 @@ jobs:
                 --build-arg VERSION=$CHR_VERSION \
                 --build-arg HTTP_PROXY="$PROXY_ADDR" \
                 --no-cache \
-                images/build-deps/.
+                chrodium/images/build-deps/.
 
               docker push rigel254/build-deps:$CHR_VERSION
               echo "NEW_VERSION=$CHR_VERSION" >> $GITHUB_ENV
