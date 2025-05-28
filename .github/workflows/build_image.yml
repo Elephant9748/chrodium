@@ -142,7 +142,7 @@ jobs:
                 --progress plain \
                 --build-arg VERSION=$CHR_VERSION \
                 --build-arg HTTP_PROXY="$PROXY_ADDR" \
-                images/chr-source/.
+                chrodium/images/chr-source/.
 
               docker push rigel254/chromium:$CHR_VERSION
               echo "NEW_VERSION=$CHR_VERSION" >> $GITHUB_ENV
@@ -155,7 +155,7 @@ jobs:
           cd chrodium
           RELEASE=$(cat build/RELEASE | xargs)
 
-          cd tools/under-control
+          cd chrodium/images/under-control
 
           DO_UPDATE=0
           if [ -n "$NEW_VERSION" ]; then
