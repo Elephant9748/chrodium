@@ -1,6 +1,6 @@
 ARG VERSION
 
-FROM uazo/build-deps:$VERSION
+FROM rigel254/build-deps:$VERSION
 ARG VERSION
 ENV VERSION=$VERSION
 
