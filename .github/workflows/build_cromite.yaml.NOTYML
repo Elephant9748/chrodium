@@ -1,7 +1,4 @@
-# This is a basic workflow to help you get started with Actions
-
-name: build-chrodium
-
+name: Build Cromite
 permissions:
   actions: none
   checks: none
@@ -18,7 +15,7 @@ on:
   workflow_dispatch:
     inputs:
       sha:
-        description: 'Elephant9748/chrodium SHA'
+        description: 'uazo/cromite SHA'
         required: true
         default: ''
       target_os:
@@ -41,6 +38,7 @@ on:
         description: 'clangd? [true/false]'
         required: true
         default: 'false'
+
 env:
   CROMITE_SHA: ${{ github.event.inputs.sha }}
   REMOVEDOCKERSUPPORT: true
@@ -51,7 +49,7 @@ jobs:
     runs-on: ${{ github.event.inputs.type }}
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
         with:
           path: cromite
           ref: ${{ github.event.inputs.sha }}
