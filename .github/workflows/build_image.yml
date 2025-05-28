@@ -114,7 +114,7 @@ jobs:
       - name: Building build-deps container ${{ env.VERSION }}
         shell: bash
         run: |
-          ls -la
+          ls -la chrodium
           IS_PRESENT=$(docker inspect --type=image rigel254/build-deps:$CHR_VERSION > /dev/null ; echo $?)
           if [ $IS_PRESENT -ne "0" ]; then
             IS_PRESENT=$(./regctl image inspect rigel254/build-deps:$CHR_VERSION > /dev/null ; echo $?)
