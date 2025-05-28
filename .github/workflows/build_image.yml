@@ -165,23 +165,24 @@ jobs:
               docker push rigel254/chromium:$CHR_VERSION
             fi
           fi
+          docker images -a
 
-      - name: Get rigel254/chromium from docker hub
-        shell: bash
-        run: |
-          IS_PRESENT=$(./regctl image inspect rigel25/chromium:$CHR_VERSION > /dev/null ; echo $?)
-          if [ $IS_PRESENT -eq "0" ]; then
-            docker pull rigel254/chromium:$CHR_VERSION
-          fi
-
-      - name: Mark image to build
-        shell: bash
-        run: |
-          IS_PRESENT=$(docker inspect --type=image rigel254/chromium:$CHR_VERSION > /dev/null ; echo $?)
-          if [ $IS_PRESENT -eq "0" ]; then
-            docker rmi rigel254/chromium:build
-          fi
-          docker tag rigel254/chromium:$CHR_VERSION rigel254/chromium:build
+      # - name: Get rigel254/chromium from docker hub
+      #   shell: bash
+      #   run: |
+      #     IS_PRESENT=$(./regctl image inspect rigel25/chromium:$CHR_VERSION > /dev/null ; echo $?)
+      #     if [ $IS_PRESENT -eq "0" ]; then
+      #       docker pull rigel254/chromium:$CHR_VERSION
+      #     fi
+      #
+      # - name: Mark image to build
+      #   shell: bash
+      #   run: |
+      #     IS_PRESENT=$(docker inspect --type=image rigel254/chromium:$CHR_VERSION > /dev/null ; echo $?)
+      #     if [ $IS_PRESENT -eq "0" ]; then
+      #       docker rmi rigel254/chromium:build
+      #     fi
+      #     docker tag rigel254/chromium:$CHR_VERSION rigel254/chromium:build
 
   build_chrodium:
     runs-on: ${{ github.event.inputs.type }}
@@ -190,7 +191,7 @@ jobs:
     timeout-minutes: 1440
 
     container:
-      image: rigel254/chromium:build
+      image: rigel254/chromium:$CHR_VERSION
       env:
         REMOVEDOCKERSUPPORT: true # CUSTOM RUNNER: remove sharing of docker socket
         USELOCALIMAGE: true       # CUSTOM RUNNER: permit use of local images
