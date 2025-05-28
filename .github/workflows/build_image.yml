@@ -139,7 +139,6 @@ jobs:
 
     container:
       image: rigel254/chromium:${{ github.event.inputs.version }}
-      image: uazo/cromite-build:build
       env:
         REMOVEDOCKERSUPPORT: true # CUSTOM RUNNER: remove sharing of docker socket
         USELOCALIMAGE: true       # CUSTOM RUNNER: permit use of local images
