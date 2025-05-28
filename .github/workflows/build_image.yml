@@ -1,3 +1,4 @@
+name: Build Chrodium
 permissions:
   actions: none
   checks: none
@@ -146,7 +147,7 @@ jobs:
           if [ $IS_PRESENT -eq "0" ]; then
             docker rmi uazo/chromium:$CHR_VERSION
           fi
-        docker tag rigel254/chromium:$CHR_VERSION rigel254/chrodium:build
+        docker tag rigel254/chromium:$CHR_VERSION rigel254/chromium:build
 
   build_chrodium:
     runs-on: ${{ github.event.inputs.type }}
@@ -155,7 +156,7 @@ jobs:
     timeout-minutes: 1440
 
     container:
-      image: rigel254/chrodium:build
+      image: rigel254/chromium:build
       env:
         REMOVEDOCKERSUPPORT: true # CUSTOM RUNNER: remove sharing of docker socket
         USELOCALIMAGE: true       # CUSTOM RUNNER: permit use of local images
