@@ -177,9 +177,9 @@ jobs:
       - name: Mark image to build
         shell: bash
         run: |
-          IS_PRESENT=$(docker inspect --type=image rigel254/chromium:build > /dev/null ; echo $?)
+          IS_PRESENT=$(docker inspect --type=image rigel254/chromium:$CHR_VERSION > /dev/null ; echo $?)
           if [ $IS_PRESENT -eq "0" ]; then
-            docker rmi rigel254/chromium:$CHR_VERSION
+            docker rmi rigel254/chromium:build
           fi
           docker tag rigel254/chromium:$CHR_VERSION rigel254/chromium:build
 
