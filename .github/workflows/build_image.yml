@@ -43,10 +43,10 @@ env:
   REMOVEDOCKERSUPPORT: true
   USELOCALIMAGE: true
 
-name: Builds and pushes tagged image to DockerHub
+name: Chck images build and push to Dockerhub
 jobs:
   check_images:
-    name: Generate Build Deps
+    name: Generate Build Images
     runs-on: ${{ github.event.inputs.type }}
     steps:
       - name: Checkout repo
@@ -131,6 +131,48 @@ jobs:
             fi
           fi
 
+  build_chrodium:
+    runs-on: ${{ github.event.inputs.type }}
+    needs: check_images
+    if: success() 
+    timeout-minutes: 1440
 
-  # build_chrodium:
-  #   runs-on: ${{ github.event.inputs.type }}
+    container:
+      image: rigel254/chromium:${{ github.event.inputs.version }}
+      image: uazo/cromite-build:build
+      env:
+        REMOVEDOCKERSUPPORT: true # CUSTOM RUNNER: remove sharing of docker socket
+        USELOCALIMAGE: true       # CUSTOM RUNNER: permit use of local images
+        USEINTERNALNETWORK: true  # CUSTOM RUNNER: create the docker network as internal
+        WORKSPACE: /home/lg/working_dir
+        # kythe
+        # KYTHE_CORPUS: chromium.googlesource.com/chromium/src
+        # KYTHE_ROOT_DIRECTORY: /home/lg/working_dir/chromium/src
+        # KYTHE_OUTPUT_DIRECTORY: /home/lg/working_dir/chromium/src/out/arm64/kythe
+        # cross build
+        # DEPOT_TOOLS_WIN_TOOLCHAIN_BASE_URL: /win_sdk/sdks/Win11SDK_10.0.26100.0/
+        # WINDOWSSDKDIR: "/win_sdk/sdks/Win11SDK_10.0.26100.0/Windows Kits/10/"
+        # GYP_MSVS_OVERRIDE_PATH: /win_sdk/sdks/Win11SDK_10.0.26100.0/
+        # compile in debug mode
+        TARGET_ISDEBUG: ${{ github.event.inputs.debug }}
+        TARGET_OS: ${{ github.event.inputs.target_os }}
+        USE_KEYSTORE: true
+        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        # CROMITE_PREF_HASH_SEED_BIN: ${{ secrets.CROMITE_PREF_HASH_SEED_BIN }}
+      volumes:
+        - /storage/images/${{ github.event.inputs.sha }}/android/${{ github.event.inputs.debug }}/arm:/home/lg/working_dir/chromium/src/out/arm
+        - /storage/images/${{ github.event.inputs.sha }}/android/${{ github.event.inputs.debug }}/arm64:/home/lg/working_dir/chromium/src/out/arm64
+        - /storage/images/${{ github.event.inputs.sha }}/android/${{ github.event.inputs.debug }}/x64:/home/lg/working_dir/chromium/src/out/x64
+        - /storage/images/${{ github.event.inputs.sha }}/linux/${{ github.event.inputs.debug }}/lin64:/home/lg/working_dir/chromium/src/out/lin64
+        # - /storage/images/${{ github.event.inputs.sha }}/win/x64:/home/lg/working_dir/chromium/src/out/win64
+        - /tmp/proxy:/tmp/proxy
+        # - /win_sdk:/win_sdk
+        
+    steps:
+      - name: Prepare Build container
+        shell: bash
+        run: |
+          ls -al 
+          git --version
+
+
