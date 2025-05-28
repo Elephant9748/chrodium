@@ -44,7 +44,6 @@ env:
   REMOVEDOCKERSUPPORT: true
   USELOCALIMAGE: true
 
-name: Check images build and push to Dockerhub
 jobs:
   check_images:
     name: Generate Build Images
