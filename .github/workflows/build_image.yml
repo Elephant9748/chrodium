@@ -191,7 +191,7 @@ jobs:
     timeout-minutes: 1440
 
     container:
-      image: rigel254/chromium:$CHR_VERSION
+      image: rigel254/chromium:${{ github.event.inputs.version }}
       env:
         REMOVEDOCKERSUPPORT: true # CUSTOM RUNNER: remove sharing of docker socket
         USELOCALIMAGE: true       # CUSTOM RUNNER: permit use of local images
